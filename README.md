@@ -36,7 +36,7 @@ No RabbitMQ clique em Queues e sem seguida clique na fila DevOps. \
 No campo Payload você pode colar um log ou texto qualquer em json \
 para ver a mensagem sendo consumida pelo logstash e o mesmo postando no elasticsearch.
 
-Exemplo: \
+Json de exemplo: \
 {
 	"age":100, \
 	"name":"mkyong.com", \
@@ -47,4 +47,14 @@ Exemplo: \
 http://localhost:5601
 
 ###### URL do Elasticsearch:
-http://localhost:9200
+http://localhost:9200 \
+
+## Dashboards
+
+![alt text](https://i.imgur.com/tuaOiRh.png)
+
+![alt text](https://i.imgur.com/BK5t8R9.png)
+
+![alt text](https://i.imgur.com/EPaxONg.png)
+
+![alt text](https://i.imgur.com/IZYvYOt.png)
