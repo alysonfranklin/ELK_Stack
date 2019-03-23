@@ -53,6 +53,12 @@ http://localhost:5601
 ###### URL do Elasticsearch:
 http://localhost:9200 \
 
+#### Versão do docker e docker-compose utilizado: 
+$ docker --version \
+Docker version 18.09.3 \
+$ docker-compose --version \
+docker-compose version 1.17.1
+
 ## Dashboards
 
 ![alt text](https://i.imgur.com/tuaOiRh.png)
