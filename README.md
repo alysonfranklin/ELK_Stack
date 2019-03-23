@@ -24,6 +24,27 @@ Logstash fica escutando a fila de logs do RabbitMQ e grava no ElasticSearch e co
 Kibana reprocessa as queries que são exibidas em seus boards - Gráfico e Consultas são atualizados na tela do usuário.
 
 #### Como usar:
-git clone https://github.com/alysonfranklin/ELK_Stack.git
-cd ELK_Stack
+git clone https://github.com/alysonfranklin/ELK_Stack.git \
+cd ELK_Stack \
 docker-compose up
+
+###### Credenciais do RabbitMQ:
+http://localhost:15672/ \
+User: guest \
+Password: 123qwe \
+No RabbitMQ clique em Queues e sem seguida clique na fila DevOps. \
+No campo Payload você pode colar um log ou texto qualquer em json \
+para ver a mensagem sendo consumida pelo logstash e o mesmo postando no elasticsearch.
+
+Exemplo: \
+{
+	"age":100, \
+	"name":"mkyong.com", \
+	"messages":["msg 1","msg 2","msg 3"] \
+}
+
+###### URL do Kibana: 
+http://localhost:5601
+
+###### URL do Elasticsearch:
+http://localhost:9200
