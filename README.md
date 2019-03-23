@@ -1,3 +1,7 @@
+## ELK Stack + RabbitMQ
+Esse projeto foi implantado na Rede D'or inclusive com Filebeat.
+Embora o projeto na Rede D'or não esteja em containers, resolvi transforma-lo em container para qualquer um poder rodar em sua maquina e conhecer o ELK e RabbitMQ
+
 ##### Elasticsearch:
 O ElasticSearch é uma engine de busca com foco na análise de dados em tempo real, baseado na arquitetura RESTful.
 ElasticSearch é um backend NoSQL baseado no Apache Lucene.
