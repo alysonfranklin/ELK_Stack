@@ -1,43 +1,10 @@
 version: '2.3'
 services:
 
-  # rabbitmq - Servidor de Mensageria - Enfileiramento de Logs
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3-management-alpine
-    volumes:
-      - mq_data:/var/lib/rabbitmq/mnesia
-    ports:
-      - "15672:15672"
-      - "5672:5672" 
-    networks:
-      - log
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: 123qwe
-      RABBITMQ_DEFAULT_VHOST: DevOps
-
-  # logstash - Pipeline - Estrutura de transporte
-  logstash:
-    container_name: logstash    
-    image: docker.elastic.co/logstash/logstash-oss:6.4.3
-    volumes:
-      - ./logstash.conf:/config/logstash.conf      
-    depends_on:
-      - rabbitmq # logstash depende do rabbitmq, pois ele precisa consumir da fila
-      - elasticsearch # logstash depende do elasticsearch para gravar os logs no elasticsearch
-    links:
-      - rabbitmq:AMQPServer
-      - elasticsearch:elasticsearch
-    networks:
-      - log    
-    command: ["-f", "/config/logstash.conf"]
-
-
   # elasticsearch - Backend NoSQL Baseado em Apache Lucene
   elasticsearch:
     container_name: elasticsearch    
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.2
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.3.2
     environment: 
       - "http.host:0.0.0.0"
       - "transport.host:127.0.0.1"
@@ -60,7 +27,7 @@ services:
   # kibana - Visualização de Logs - kibana irá apresentar os logs criados no elasticsearch
   kibana:
     container_name: kibana    
-    image: docker.elastic.co/kibana/kibana-oss:6.2.2
+    image: docker.elastic.co/kibana/kibana-oss:7.3.2
     volumes:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml   
     depends_on:
@@ -76,27 +43,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    environment:
-      SERVER_NAME: localhost
-      ELASTICSEARCH_URL: http://elasticsearch:9200/      
+    environment: 
+      server.name: kibana
+      elasticsearch.hosts: http://elasticsearch:9200
+
+
     networks:
       - log
   
-  # MetricBeat - Monitora servidores coletando métricas do sistema e dos serviços em execução no servidor
-  metricbeat:
-    container_name: metricbeat
-    image: store/elastic/metricbeat:6.6.2
-    volumes:
-      - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
-      - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      kibana:
-        condition: service_healthy
-    links:
-      - kibana:kibana
-    networks:
-      - log
-
 volumes:
   mq_data:
   elasticsearch_data:
