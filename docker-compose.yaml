@@ -23,6 +23,7 @@ services:
     image: docker.elastic.co/logstash/logstash-oss:7.3.2
     volumes:
       - ./logstash.conf:/config/logstash.conf      
+      - /var/run/docker.sock:/var/run/docker.sock:rw
     depends_on:
       - rabbitmq # logstash depende do rabbitmq, pois ele precisa consumir da fila
       - elasticsearch # logstash depende do elasticsearch para gravar os logs no elasticsearch
@@ -45,6 +46,7 @@ services:
     volumes: 
       - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - elasticsearch_data:/usr/share/elasticsearch/data      
+      - /var/run/docker.sock:/var/run/docker.sock:rw
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -62,6 +64,7 @@ services:
     image: docker.elastic.co/kibana/kibana-oss:7.3.2
     volumes:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml   
+      - /var/run/docker.sock:/var/run/docker.sock:rw
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -78,8 +81,21 @@ services:
     environment: 
       server.name: kibana
       elasticsearch.hosts: http://elasticsearch:9200
+    networks:
+      - log
 
-
+  # MetricBeat - Monitora servidores coletando métricas do sistema e dos serviços em execução no servidor
+  metricbeat:
+    container_name: metricbeat
+    image: docker.elastic.co/beats/metricbeat:7.3.2
+    volumes:
+      - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    depends_on:
+      kibana:
+        condition: service_healthy
+    links:
+      - kibana:kibana
     networks:
       - log
   

@@ -4,6 +4,6 @@ transport.host: 127.0.0.1
 cluster.name: "docker-cluster"
 network.host: 0.0.0.0
 
-discovery.zen.minimum_master_nodes: 1
+discovery.zen.minimum_master_nodes: 3
 http.cors.enabled: true
 http.cors.allow-origin: "*"

@@ -132,15 +132,15 @@ metricbeat.modules:
     #key:                   "/etc/pki/client/cert.key"
 
 #------------------------------- Docker Module -------------------------------
-- module: rabbitmq
-  metricsets:
-    - node
-    - queue
-    - connection
-  period: 10s
-  hosts: ["rabbitmq:15672"]
-  username: guest
-  password: 123qwe
+#- module: rabbitmq
+#  metricsets:
+#    - node
+#    - queue
+#    - connection
+#  period: 10s
+#  hosts: ["rabbitmq:15672"]
+#  username: guest
+#  password: 123qwe
 
 #---------------------------- Elasticsearch Module ---------------------------
 - module: elasticsearch
@@ -150,7 +150,7 @@ metricbeat.modules:
     - index
     - index_recovery
     #- index_summary
-    #- shard
+    - shard
     #- ml_job
   period: 10s
   hosts: ["http://elasticsearch:9200"]
